@@ -150,7 +150,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"worst area": 711.2, "wors
 ## 📸 Understanding Cancer Tissue Samples
 The model is trained on histological images of breast cancer tissues. Below is a visual comparison of benign and malignant samples at different magnifications (4x, 10x, 20x):
 
-![Cancer Tissue Samples](https://raw.githubusercontent.com/BlackRazor34/breast-cancer-prediction/main/images/cancer_samples.jpg)
+<p align="center"><img src="images/breastcancer.jpg" width="600" />
 
 - **Benign Samples**: Typically show more organized structures and less cellular density.
 - **Malignant Samples**: Display irregular structures, higher cellular density, and more aggressive growth patterns.
