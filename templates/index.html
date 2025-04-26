@@ -2,42 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Breast Cancer Prediction (5 Features)</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Breast Cancer Prediction</title>
+    <!-- Bootswatch Flatly Theme -->
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/flatly/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f8f9fa;
         }
         .container {
-            max-width: 600px;
-            margin-top: 50px;
+            max-width: 800px;
+            margin-top: 30px;
         }
-        .card {
-            border: none;
+        .header-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header-section h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+        }
+        .header-section p {
+            font-size: 1.1rem;
+            color: #6c757d;
+        }
+        .cancer-image {
+            width: 100%;
+            max-width: 700px;
+            margin: 20px auto;
+            display: block;
+            border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .btn-primary {
-            background-color: #28a745;
-            border-color: #28a745;
+        .form-section {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .btn-primary:hover {
-            background-color: #218838;
-            border-color: #218838;
-        }
-        .btn-secondary {
-            margin-left: 10px;
-        }
-        .result, .error {
+        .result-section {
             margin-top: 20px;
             padding: 15px;
-            border-radius: 5px;
+            border-radius: 8px;
+            text-align: center;
         }
-        .result {
+        .result-benign {
             background-color: #d4edda;
             color: #155724;
         }
-        .error {
+        .result-malignant {
             background-color: #f8d7da;
             color: #721c24;
         }
@@ -45,45 +58,49 @@
 </head>
 <body>
     <div class="container">
-        <div class="card p-4">
-            <h1 class="text-center mb-4">Breast Cancer Prediction</h1>
-            <form method="POST">
-                {% for feature in feature_names %}
-                    <div class="mb-3">
-                        <label for="{{ feature }}" class="form-label">{{ feature.replace('_', ' ').title() }}</label>
-                        <input type="number" step="any" class="form-control" name="{{ feature }}" id="{{ feature }}" required placeholder="e.g., {{ '200-2500' if feature == 'worst area' else '0-0.3' if feature in ['worst concave points', 'mean concave points', 'mean concavity'] else '6-28' }}">
-                    </div>
-                {% endfor %}
+        <!-- Header Section -->
+        <div class="header-section">
+            <h1>🎗️ Breast Cancer Prediction</h1>
+            <p>Predict whether a breast cancer tumor is benign or malignant using advanced machine learning.</p>
+        </div>
+
+        <!-- Cancer Tissue Samples Image -->
+        <img src="https://github.com/BlackRazor34/breast-cancer-prediction/raw/main/images/breastcancer.jpg" alt="Cancer Tissue Samples: Benign vs. Malignant" class="cancer-image">
+        <p class="text-center text-muted">Comparison of benign and malignant breast cancer tissue samples at different magnifications (4x, 10x, 20x).</p>
+
+        <!-- Form Section -->
+        <div class="form-section">
+            <form method="POST" action="/">
+                <div class="mb-3">
+                    {% for feature in feature_names %}
+                    <label for="{{ feature }}" class="form-label">{{ feature.replace('_', ' ').title() }}</label>
+                    <input type="number" step="any" min="0" class="form-control" name="{{ feature }}" id="{{ feature }}" required>
+                    {% endfor %}
+                </div>
                 <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary">Predict</button>
-                    <button type="button" class="btn btn-secondary" onclick="fillExample()">Fill Example Values</button>
+                    <button type="button" class="btn btn-secondary" onclick="fillExampleValues()">Fill Example Values</button>
                 </div>
             </form>
-            
-            {% if result %}
-                <div class="result">
-                    <p><strong>Prediction:</strong> {{ result }}</p>
-                    <p><strong>Confidence:</strong> {{ '%.2f' % confidence }}%</p>
-                </div>
-            {% endif %}
-            
-            {% if error %}
-                <div class="error">
-                    <p>{{ error }}</p>
-                </div>
-            {% endif %}
         </div>
+
+        <!-- Result Section -->
+        {% if prediction %}
+        <div class="result-section {% if prediction == 'Benign' %}result-benign{% else %}result-malignant{% endif %}">
+            <h3>Prediction: {{ prediction }}</h3>
+            <p>Confidence: {{ confidence }}%</p>
+        </div>
+        {% endif %}
     </div>
 
     <script>
-        function fillExample() {
-            document.getElementsByName('worst area')[0].value = 711.2;
-            document.getElementsByName('worst concave points')[0].value = 0.1288;
-            document.getElementsByName('mean concave points')[0].value = 0.04781;
-            document.getElementsByName('worst radius')[0].value = 15.11;
-            document.getElementsByName('mean concavity')[0].value = 0.06664;
+        function fillExampleValues() {
+            document.getElementById("worst area").value = "711.2";
+            document.getElementById("worst concave points").value = "0.1288";
+            document.getElementById("mean concave points").value = "0.04781";
+            document.getElementById("worst radius").value = "15.11";
+            document.getElementById("mean concavity").value = "0.06664";
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
