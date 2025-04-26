@@ -74,6 +74,10 @@ def api_predict():
         })
     except (ValueError, KeyError):
         return jsonify({'error': 'Invalid input. Please provide all features as numbers in JSON format.'}), 400
+    
+@app.route('/docs')
+def docs():
+    return render_template('docs.html', feature_names=feature_names)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
