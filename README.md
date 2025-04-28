@@ -2,7 +2,7 @@
 
 A machine learning tool to classify breast cancer tumors as benign or malignant using a Random Forest model. Built with Flask, featuring a modern Bootstrap 5 interface and a REST API.
 
-<p align="center"><img src="images/breastcancer.jpg" width="600" />
+<p align="center"><img src="images/Web_Sayfasi.png" width="600" />
 
 ## 📋 Overview
 Breast Cancer Prediction leverages machine learning to classify breast cancer tumors based on five key features from the Breast Cancer Wisconsin Dataset. With a user-friendly web interface and a powerful REST API, this tool provides accurate predictions with confidence scores in seconds.
